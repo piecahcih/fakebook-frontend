@@ -4,9 +4,11 @@ import ThemeToggle from "../components/ThemeToggle"
 
 function Mainlayout() {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col">
+      <div className="flex flex-col items-center">
         <Header/>
         <ThemeToggle/>
+      </div>
         <Outlet/>
     </div>
   )
