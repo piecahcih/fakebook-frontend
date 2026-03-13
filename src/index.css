@@ -1,0 +1,26 @@
+@import "tailwindcss";
+@plugin "daisyui"{
+  themes: cyberpunk --default, night;
+}
+
+@theme {
+  --font-sans: "Montserrat", "Geometria", "Futura", "Century Gothic", AppleGothic, sans-serif;
+  --color-orange: #f24f13;
+}
+
+@layer {
+  html{
+    color: var(--color-orange)
+
+  }
+}
+
+
+@font-face {
+  font-family: 'PillowRegular';
+  src: local('Pilowlava Regular')
+}
+@font-face {
+  font-family: 'PillowAtome';
+  src: local('Pilowlava Atome')
+}
