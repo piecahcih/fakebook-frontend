@@ -1,33 +1,49 @@
+import RegisterForm from "@/components/RegisterForm"
+
 function Login() {
     return(
-        <div className="h-175 pt-20 pb-28 bg-yellow-50">
-            <div className="p-5 max-w-5xl mx-auto min-h-135 flex justify-between max-md:flex-col">
-                <div className="flex flex-col gap-4 mt-20 basis-3/5 max-md::text-center">
-                    <h1 className="text-5xl text-blue-600 font-bold">fakebook</h1>
-                    <p className="text-[30px] leading-8 mt-3 w-128.5 max-md:w-auto">
-                        Fakebook helps you connect and share with the people in your life.
-                    </p>
-                    <p className="badge badge-dash badge-error">This site is a scam</p>
-                </div>
-                <div className="flex-1">
-                    <div className="card bg-white w-full h-87.5 shadow-xl mt-8 max-md:w-2/3">
-                        <form onSubmit={e=>e.preventDefault}>
-                            <div className="card-body">
-                                <input className="border rounded-md w-full px-2 py-3 " 
-                                type="text" placeholder="E-mail or Phone number" />
-                                <input className="border rounded-md w-full px-2 py-3 " 
-                                type="text" placeholder="Password" />
-                                <button className="bg-blue-600 text-white p-2 w-full rounded-md">Log In</button>
-                                <button>Forgotten password?</button>
-                                <div className="divider"></div>
-                                <button className="btn btn-secondary rounded-md">Create new account</button>
-                            </div>
-                        </form>
+        <>
+            <div className="h-175 pt-20 pb-28 bg-yellow-50">
+                <div className="p-5 max-w-5xl mx-auto min-h-135 flex justify-between max-md:flex-col">
+                    <div className="flex flex-col gap-4 mt-20 basis-3/5 max-md::text-center">
+                        <h1 className="text-5xl text-blue-600 font-bold">fakebook</h1>
+                        <p className="text-[30px] leading-8 mt-3 w-128.5 max-md:w-auto">
+                            Fakebook helps you connect and share with the people in your life.
+                        </p>
+                        <p className="badge badge-dash badge-error">This site is a scam</p>
+                    </div>
+                    <div className="flex-1">
+                        <div className="card bg-white w-full h-87.5 shadow-xl mt-8 max-md:w-2/3">
+                            <form onSubmit={e=>e.preventDefault()}>
+                                <div className="card-body">
+                                    <input className="border rounded-md w-full px-2 py-3 " 
+                                    type="text" placeholder="E-mail or Phone number" />
+                                    <input className="border rounded-md w-full px-2 py-3 " 
+                                    type="text" placeholder="Password" />
+                                    <button className="bg-blue-600 text-white p-2 w-full rounded-md">Log In</button>
+                                    <button>Forgotten password?</button>
+                                    <div className="divider"></div>
+                                    <button className="btn btn-secondary rounded-md" 
+                                    onClick={()=>document.getElementById('register-form').showModal()}>
+                                        Create new account</button>
+                                </div>
+                            </form>
 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <dialog id="register-form" className="modal">
+                <div className="modal-box">
+                    <form method="dialog">
+                        {/* if there is a button in form, it will close the modal */}
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                    </form>
+                    <RegisterForm/>
+                </div>
+            </dialog>
+        </>
     )
 }
 
