@@ -1,7 +1,31 @@
 import RegisterForm from "@/components/RegisterForm"
+import useUserStore from "@/stores/userStore"
+import { loginSchema } from "@/validations/schema"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { toast } from "react-toastify"
 
 function Login() {
+    const token = useUserStore(state=>state.token)
+    const login = useUserStore(state=>state.login)
+    const { register, handleSubmit, formState, reset } = useForm({
+        resolver: zodResolver(loginSchema),
+        mode: 'onSubmit'
+    })
+    const {errors, isSubmitting, isValid} = formState
+
+    const onSubmit = async (body) => {
+        try {
+            // toast.info(JSON.stringify(body, null, 2))
+            const res = await login(body)
+            toast.success(JSON.stringify(res.data))
+        } catch (error) {
+            console.dir(error)
+            const errMsg = error.response?.data.message || error.message
+            toast.error(errMsg)
+        }
+    }
+
     return(
         <>
             <div className="h-175 pt-20 pb-28 bg-yellow-50">
@@ -15,19 +39,29 @@ function Login() {
                     </div>
                     <div className="flex-1">
                         <div className="card bg-white w-full h-87.5 shadow-xl mt-8 max-md:w-2/3">
-                            <form onSubmit={e=>e.preventDefault()}>
-                                <div className="card-body">
-                                    <input className="border rounded-md w-full px-2 py-3 " 
-                                    type="text" placeholder="E-mail or Phone number" />
-                                    <input className="border rounded-md w-full px-2 py-3 " 
-                                    type="text" placeholder="Password" />
-                                    <button className="bg-blue-600 text-white p-2 w-full rounded-md">Log In</button>
-                                    <button>Forgotten password?</button>
-                                    <div className="divider"></div>
-                                    <button className="btn btn-secondary rounded-md" 
-                                    onClick={()=>document.getElementById('register-form').showModal()}>
-                                        Create new account</button>
-                                </div>
+                            <form onSubmit={handleSubmit(onSubmit)}>
+                                <fieldset disabled={isSubmitting}>
+                                    <div className="card-body">
+                                        <div className="w-full">
+                                            <input className="border rounded-md w-full px-2 py-3 " 
+                                            {...register('identity')}
+                                            type="text" placeholder="E-mail or Phone number" />
+                                            <p className="text-sm text-error">{errors.identity?.message}</p>
+                                        </div>
+                                        <div className="w-full">
+                                            <input className="border rounded-md w-full px-2 py-3 " 
+                                            {...register('password')}
+                                            type="password" placeholder="Password" />
+                                            <p className="text-sm text-error">{errors.password?.message}</p>
+                                        </div>
+                                        <button className="btn btn-primary p-2 w-full rounded-md" disabled={!isValid}>Log In</button>
+                                        <button>Forgotten password?</button>
+                                        <div className="divider"></div>
+                                        <button className="btn btn-secondary rounded-md" 
+                                        onClick={()=>document.getElementById('register-form').showModal()}>
+                                            Create new account</button>
+                                    </div>
+                                </fieldset>
                             </form>
 
                         </div>

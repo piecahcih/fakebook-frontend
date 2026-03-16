@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { registerSchema } from '@/validations/schema'
 import axios from "axios"
 import { Bounce, toast, ToastContainer } from "react-toastify"
+import { apiRegister, mainApi } from "@/api/mainApi"
 
 function RegisterForm() {
   const {register, handleSubmit, formState, reset} = useForm({
@@ -18,7 +19,9 @@ function RegisterForm() {
     try {
       // alert(JSON.stringify(data, null, 2))
       await new Promise( resolve => setTimeout(resolve, 1000))
-      const res = await axios.post('http://localhost:8899/api/auth/register',data)
+      // const res = await axios.post('http://localhost:8899/api/auth/register',data)
+      // const res = await apiRegister(data)
+      const res = await mainApi.post('/auth/register',data)
       // toast.success(JSON.stringify(res.data.message), {transition: Bounce, autoClose: 2000})
       toast.success(res.data.message, {transition: Bounce, autoClose: 2000})
       document.getElementById('register-form').close()
@@ -40,7 +43,9 @@ function RegisterForm() {
           {isSubmitting && <span className="loading loading-spinner mx-2"></span>}
         </div>
         <div className="divider"></div>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 p-4 pt-3">
+
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <fieldset className="flex flex-col gap-5 p-4 pt-3" disabled={isSubmitting}>
             <div className="flex gap-2">
               <div className="w-full">
                 <input type="text" className="input w-full" placeholder="First name" {...register('firstName')}/>
@@ -66,7 +71,9 @@ function RegisterForm() {
             </div>
             <button className="btn btn-secondary text-xl" disabled={isSubmitting}>Sign Up</button>
             <button type="button" onClick={()=>reset()} className="btn btn-warning text-xl">Clear</button>
+          </fieldset>
         </form>
+
         {/* <div className="border">
             <pre className="text-error text-xs">
             {JSON.stringify(errors, (k,v) => k==='ref' ? undefined : v, 2) }</pre>
