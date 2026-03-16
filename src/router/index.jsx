@@ -12,7 +12,7 @@ const Mainlayout = lazy(()=>import("../layouts/Mainlayout"));
 //path ที่เข้าได้ทั้งguest / user
 const commonPath = [
     {
-        path:'/share', 
+        path:'share', 
         Component: ShareInfo
     }
 ]
@@ -44,11 +44,11 @@ const userRouter = createBrowserRouter([
                 element:<Home/>
             },
             {
-                path:'/friends',
+                path:'friends',
                 Component: Friends
             },
             {
-                path:'/profile',
+                path:'profile',
                 element: <Profile/>
             },
             {

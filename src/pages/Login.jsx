@@ -1,4 +1,5 @@
 import RegisterForm from "@/components/RegisterForm"
+import { useForm } from "react-hook-form"
 
 function Login() {
     return(
