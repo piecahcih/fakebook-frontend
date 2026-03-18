@@ -5,11 +5,24 @@ import cat from '../assets/cat.gif'
 import usePostStore from "@/stores/postStore"
 import { toast } from "react-toastify"
 import useUserStore from "@/stores/userStore"
+import TimeAgo from "react-timeago"
 
 function PostItem({post}) {
     const deletePost = usePostStore(st => st.deletePost)
     const user = useUserStore(st=>st.user)
     const setCurrentPost = usePostStore(st=>st.setCurrentPost)
+    const createLike = usePostStore(st=>st.createLike)
+    const unLike = usePostStore(st=>st.unLike)
+
+    const haveLike = post.likes.some(el => el.userId === user.id)
+
+    const hdlLikeClick = async () => {
+        if(haveLike) {
+            await unLike(post.id)
+        } else {
+            await createLike(post.id)
+        }
+    }
 
     const hdlDelete = async() => {
         try {
@@ -35,7 +48,7 @@ function PostItem({post}) {
            <div className="flex flex-col">
              <p className='font-bold text-sm'>{post.user.firstName} {post.user.lastName}</p>
              <p className='text-xs opacity-70'>
-               1d ago
+               <TimeAgo date={post.createdAt}/>
              </p>
            </div>
          </div>
@@ -95,10 +108,11 @@ function PostItem({post}) {
        </div>
        <div className="divider h-0 my-0"></div>
        <div className="flex gap-3 justify-between">
-         <div className={`flex gap-3 justify-center items-center cursor-pointer hover:bg-gray-300 rounded-lg py-2 flex-1
-           ${Math.random()>0.5 ? 'bg-blue-300 text-white' : ''} `} >
-           <LikeIcon className='w-6' /> Like
-         </div>
+			<div className="flex gap-3 justify-center items-center cursor-pointer hover:bg-gray-300 rounded-lg py-2 flex-1"
+			onClick={hdlLikeClick}>
+                {haveLike && <LikeIcon className='w-8 bg-fuchsia-300 rounded outline-offset-2' />}
+                {!haveLike && <LikeIcon className='w-6' />}
+			</div>
          <div className="flex gap-3 justify-center items-center cursor-pointer hover:bg-gray-300 rounded-lg py-2 flex-1">
            <CommentIcon className='w-8' /> Comment
          </div>
