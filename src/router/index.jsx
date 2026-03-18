@@ -6,6 +6,7 @@ import Login from "@/pages/Login";
 import Profile from "@/pages/Profile";
 import { lazy } from "react";
 import ShareInfo from "@/pages/ShareInfo";
+import Guestlayout from "@/layouts/Guestlayout";
 const Mainlayout = lazy(()=>import("../layouts/Mainlayout"));
 
 
@@ -20,7 +21,7 @@ const commonPath = [
 const guestRouter = createBrowserRouter([
     {
         path:"/",
-        element:<Mainlayout/>,
+        element:<Guestlayout/>,
         children: [
             {
                 index: true,

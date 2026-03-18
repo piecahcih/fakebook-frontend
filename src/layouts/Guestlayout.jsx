@@ -1,19 +1,19 @@
 import { Outlet } from "react-router"
 import Header from "../components/Header"
 import ThemeToggle from "../components/ThemeToggle"
-import UserNav from "@/components/UserNav"
+import GuestNav from "@/components/GuestNav"
 
-function Mainlayout() {
+function Guestlayout() {
   return (
     <div className="flex flex-col">
       <div className="flex flex-col items-center">
-        <UserNav/>
         <ThemeToggle/>
         <Header/>
+        <GuestNav/>
       </div>
         <Outlet/>
     </div>
   )
 }
 
-export default Mainlayout
+export default Guestlayout

@@ -7,6 +7,7 @@ import { toast } from "react-toastify"
 
 function Login() {
     const token = useUserStore(state=>state.token)
+    const user = useUserStore(state=>state.user)
     const login = useUserStore(state=>state.login)
     const { register, handleSubmit, formState, reset } = useForm({
         resolver: zodResolver(loginSchema),
@@ -16,9 +17,11 @@ function Login() {
 
     const onSubmit = async (body) => {
         try {
+            await new Promise(resolve => setTimeout(resolve, 2000))
             // toast.info(JSON.stringify(body, null, 2))
             const res = await login(body)
-            toast.success(JSON.stringify(res.data))
+            toast.success(res.data.message)
+            // toast.success(JSON.stringify(res.data))
         } catch (error) {
             console.dir(error)
             const errMsg = error.response?.data.message || error.message
@@ -31,7 +34,9 @@ function Login() {
             <div className="h-175 pt-20 pb-28 bg-yellow-50">
                 <div className="p-5 max-w-5xl mx-auto min-h-135 flex justify-between max-md:flex-col">
                     <div className="flex flex-col gap-4 mt-20 basis-3/5 max-md::text-center">
-                        <h1 className="text-5xl text-blue-600 font-bold">fakebook</h1>
+                        <h1 className="text-5xl text-blue-600 font-bold">fakebook
+                            <p className="mx-2">Hello, {user?.firstName}</p>
+                        </h1>
                         <p className="text-[30px] leading-8 mt-3 w-128.5 max-md:w-auto">
                             Fakebook helps you connect and share with the people in your life.
                         </p>
@@ -54,7 +59,9 @@ function Login() {
                                             type="password" placeholder="Password" />
                                             <p className="text-sm text-error">{errors.password?.message}</p>
                                         </div>
-                                        <button className="btn btn-primary p-2 w-full rounded-md" disabled={!isValid}>Log In</button>
+                                        <button className="btn btn-primary p-2 w-full rounded-md" disabled={!isValid}>Log In
+                                            {isSubmitting && <span className="loading loading-dots loading-md"></span>}
+                                        </button>
                                         <button>Forgotten password?</button>
                                         <div className="divider"></div>
                                         <button className="btn btn-secondary rounded-md" 

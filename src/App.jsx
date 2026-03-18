@@ -4,11 +4,13 @@ import {userRouter,guestRouter} from "./router"
 import { Suspense } from "react";
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from "react-toastify";
+import useUserStore from "./stores/userStore";
 
 
 function App() {
-  const user = null
-  // const user = { email: 'andy@ggg.mail'}
+  // const user = null
+  // // const user = { email: 'andy@ggg.mail'}
+  const user = useUserStore(st=>st.user)
   const finalRouter = user ? userRouter : guestRouter
   return (
     <>
